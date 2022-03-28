@@ -1,6 +1,5 @@
-plugins {
-    id 'com.android.library'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion cfgs.compileSdkVersion
@@ -30,8 +29,6 @@ ext {
     PUBLISH_ARTIFACT_ID = "camerax"
 }
 
-apply from: '../publish.gradle'
-
 dependencies {
     api "androidx.camera:camera-core:1.1.0-beta02"
     api "androidx.camera:camera-camera2:1.1.0-beta02"
@@ -40,4 +37,19 @@ dependencies {
     implementation "androidx.transition:transition:1.4.1"
     implementation "androidx.concurrent:concurrent-futures:1.1.0"
     implementation 'androidx.appcompat:appcompat:1.4.1'
+}
+
+//参考 https://developer.android.com/studio/build/maven-publish-plugin
+//参考 https://blog.csdn.net/haojiagou/article/details/115391998
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.Lee-Wang-Jing'
+                artifactId = 'camerax'
+                version = 'v3.0.11'
+            }
+        }
+    }
 }
